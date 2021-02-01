@@ -1,0 +1,39 @@
+.searchInputs {
+  width: 100%;
+  height: 328px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.pricingHider {
+  width: 85%;
+  height: 220px;
+  background-color: red;
+  margin-top: 1%;
+}
+.pricingHider .categories {
+  width: 25%;
+  height: 30px;
+  background-color: white;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+}
+.pricingHider .categories .categoriesText {
+  font-family: Bolt sans-serif;
+  font-size: 20px;
+  color: #707070;
+}
+
+.typeCarsInput {
+  width: 240px;
+  height: 44px;
+  border: 1px solid;
+  border-color: #707070;
+  border-radius: 4px;
+  color: #707070;
+  font-size: 17px;
+}
+
+/*# sourceMappingURL=index.sass.map */

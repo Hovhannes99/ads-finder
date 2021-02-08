@@ -6,7 +6,9 @@ import {
     Route,
     NavLink
 } from "react-router-dom";
+import Map from "../Map";
 import Pricing from "../Pricing";
+
 
 function Nav () {
     return (
@@ -26,7 +28,8 @@ function Nav () {
                 </div>
             </div>
             <Switch>
-                <Route exect path={"/pricing"} component={Pricing}/>
+                <Route path={"/map"}  component={Map}/>
+                <Route exact path={"/pricing"} component={Pricing}/>
             </Switch>
         </Router>
     )

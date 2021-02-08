@@ -6,27 +6,34 @@ import {
     NavLink
 } from "react-router-dom";
 import "../../style/SearchInputs/index.sass"
+import CarsSearch from "./CarsSearch";
+import CarsPage from "../Categories/CarsPage";
+import Footer from "../Footer";
 
 
-
-function Pricing(){
-    return(
+function Pricing() {
+    return (
+        <>
         <div className={"searchInputs"}>
             <Router>
                 <div className={"pricingHider"}>
                     <nav className={"categories"}>
-                        <NavLink className={"categoriesText"} to={"/cars"}>Cars</NavLink>
-                        <NavLink className={"categoriesText"} to={"/estate"}>Real Estate</NavLink>
-                        <NavLink className={"categoriesText"} to={"/electronics"}>Electronics</NavLink>
+                        <NavLink activeStyle={{color:"orange"}} className={"categoriesText"} to={"/cars"}>Cars</NavLink>
+                        <NavLink activeStyle={{color:"orange"}} className={"categoriesText"} to={"/estate"}>Real Estate</NavLink>
+                        <NavLink activeStyle={{color:"orange"}} className={"categoriesText"} to={"/electronics"}>Electronics</NavLink>
                     </nav>
-                    <select className={"typeCarsInput"}>
-                        <option  value={""}>Type of car</option>
-                        <option>ggg</option>
-                    </select>
-                    <input  placeholder={"jjj"}/>
+                    <div className={"gridStyle"}>
+                       <Switch>
+                            <Route  exact path={"/cars"} component={CarsSearch}/>
+                       </Switch>
+                    </div>
                 </div>
+                <Switch>
+                    <Route  exact path={"/cars"} component={CarsPage}/>
+                </Switch>
             </Router>
         </div>
+        </>
     )
 }
 

@@ -1,10 +1,8 @@
 import React from 'react'
 import Nav from "./components/Nav";
 import './App.sass';
-import Footer from "./components/Footer";
 // import Body from './components/Body';
 import {BrowserRouter as Router,Route, Switch} from "react-router-dom";
-import Map from "./components/Map";
 import Pricing from "./components/Pricing";
 
 

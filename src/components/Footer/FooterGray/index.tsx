@@ -1,6 +1,6 @@
 import React from "react";
 import {useHistory} from "react-router-dom"
-import "../../style/FooterStyle/index.sass"
+import "../../../style/FooterStyle/index.sass"
 import RoomIcon from "@material-ui/icons/Room";
 import MailIcon from '@material-ui/icons/Mail';
 import FacebookIcon from '@material-ui/icons/Facebook';
@@ -10,16 +10,14 @@ import YouTubeIcon from '@material-ui/icons/YouTube';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 
 
-export default function Footer(){
+export default function FooterGray(){
 
-
-   let  history = useHistory()
-
+    let  history = useHistory()
     function handlePageAboutUs(){
         history.push("/")
     }
     function handlePagePricing(){
-       history.push("/pricing")
+        history.push("/pricing")
     }
 
     function openPage(page:number):void{
@@ -41,9 +39,9 @@ export default function Footer(){
         }
     }
     return(
-        <div className={"footer"}>
+        <div className={"footerGray"}>
             <div className={"footerInfo"}>
-                <div className={"logoWhite"}> </div>
+                <div className={"logoGray"}> </div>
                 <p className={"textAbout"}>About Us</p>
                 <text className={"textAbout2"}>Adsfinder.ie is first world
                     class service which provide you
@@ -56,12 +54,13 @@ export default function Footer(){
                 <p style={{fontSize:"17px"}}><RoomIcon style={{fontSize: "small"}}/>Address: Cork, Ireland</p>
                 <div style={{fontSize:"17px"}}><MailIcon style={{fontSize: "small"}}/>Email:support@adsfinder.ie</div>
                 <div style={{width:"60%"}}><p style={{color:"orange",
-                             display:"flex",
-                             justifyContent: "space-between"}}><AppleIcon className={"icons"} onClick={()=>openPage(1)}/>
-                                                               <TwitterIcon className={"icons"} onClick={()=>openPage(2)}/>
-                                                               <FacebookIcon className={"icons"} onClick={()=>openPage(3)}/>
-                                                               <YouTubeIcon className={"icons"} onClick={()=>openPage(4)}/>
-                                                               <LinkedInIcon className={"icons"} onClick={()=>openPage(5)}/></p></div>
+                    display:"flex",
+                    justifyContent: "space-between"}}><AppleIcon className={"icons"} onClick={()=>openPage(1)}/>
+                    <TwitterIcon className={"icons"} onClick={()=>openPage(2)}/>
+                    <FacebookIcon className={"icons"} onClick={()=>openPage(3)}/>
+                    <YouTubeIcon className={"icons"} onClick={()=>openPage(4)}/>
+                    <LinkedInIcon className={"icons"} onClick={()=>openPage(5)}/></p>
+                </div>
             </div>
             <div className={"footerInfo"}>
                 <p className={"textContact"}>Helpful Links</p>
@@ -72,9 +71,9 @@ export default function Footer(){
             <div className={"footerInfo"}>
                 <p className={"textContact"}>Information</p>
                 <p style={{fontSize:"17px",
-                            cursor:"pointer"}} onClick={handlePageAboutUs}>About us</p>
+                    cursor:"pointer"}} onClick={handlePageAboutUs}>About us</p>
                 <p style={{cursor:"pointer"}}  onClick={handlePagePricing}>Pricing</p>
-                </div>
+            </div>
         </div>
     )
 }

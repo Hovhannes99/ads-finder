@@ -1,12 +1,17 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import InputBase from '@material-ui/core/InputBase';
-import TextField from '@material-ui/core/TextField';
+import FormControl from "@material-ui/core/FormControl";
+import NativeSelect from "@material-ui/core/NativeSelect";
+import TextField from "@material-ui/core/TextField";
+import {withStyles} from "@material-ui/core/styles";
+import InputBase from "@material-ui/core/InputBase";
+import {Button} from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
- const BootstrapInput = withStyles((theme) => ({
+
+
+
+
+const BootstrapInput = withStyles((theme) => ({
     root: {
         'label + &': {
             marginTop: theme.spacing(3),
@@ -42,42 +47,49 @@ import TextField from '@material-ui/core/TextField';
         },
     },
 }))(InputBase)
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        input: {
+            '& > *': {
+                width: '130px',
+                height: "40px",
+                marginRight: "50px",
+                marginTop: "10px"
+            },
+        },
+    }),
+);
 
-function CarsSearch(){
 
-    return(
+
+export  default  function RealEstateSearch(){
+    const classes = useStyles();
+
+    return (
         <>
             <div className={"grid1"}>
                 <FormControl className={"classes.margin"}>
                     <NativeSelect  id="demo-customized-select-native" input={<BootstrapInput />}>
-                        <option value={""}>Type of Car</option>
-                        <option>Sedan</option>
+                        <option value={""}>City</option>
+                        <option>Atrim</option>
                     </NativeSelect>
                 </FormControl>
                 <FormControl className={"classes.margin"}>
                     <NativeSelect  id="demo-customized-select-native" input={<BootstrapInput />}>
-                        <option value={""}>Brands</option>
-                        <option>BMW</option>
+                        <option value={""}>Village</option>
+                        <option>Abbeydorney</option>
                     </NativeSelect>
                 </FormControl>
-                <FormControl className={"classes.margin"}>
-                    <NativeSelect  id="demo-customized-select-native" input={<BootstrapInput />}>
-                        <option value={""}>Models</option>
-                        <option>X5</option>
-                    </NativeSelect>
-                </FormControl>
+                <div className={"gridInputs2"} >
+                <TextField className={classes.input} label="" variant="outlined" placeholder={"Surface Area from"}/>
+                <TextField className={classes.input} label="" variant="outlined" placeholder={"to"} />
+                </div>
 
             </div>
             <div className={"grid1"}>
-                <FormControl className={"classes.margin"}>
-                    <NativeSelect  id="demo-customized-select-native" input={<BootstrapInput />}>
-                        <option value={""}>Body</option>
-                        <option>OFF-Reader</option>
-                    </NativeSelect>
-                </FormControl>
                 <div className={"gridInputs"} >
                     <TextField
-                        placeholder={"from year"}
+                        placeholder={"Number of rooms:"}
                         id="yearInputs"
                         type="number"
                         InputLabelProps={{
@@ -85,7 +97,26 @@ function CarsSearch(){
                         }}
                     />
                     <TextField
-                        placeholder={"to year"}
+                        placeholder={"to"}
+                        id="yearInputs"
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                </div>
+
+                <div className={"gridInputs"} >
+                    <TextField
+                        placeholder={"Baths from"}
+                        id="yearInputs"
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                    <TextField
+                        placeholder={"to "}
                         id="yearInputs"
                         type="number"
                         InputLabelProps={{
@@ -115,37 +146,27 @@ function CarsSearch(){
             <div className={"grid1"}>
                 <FormControl className={"classes.margin"}>
                     <NativeSelect  id="demo-customized-select-native" input={<BootstrapInput />}>
-                        <option value={""}>Country</option>
+                        <option value={""}>Property Type</option>
                         <option>USA</option>
                     </NativeSelect>
                 </FormControl>
                 <FormControl className={"classes.margin"}>
                     <NativeSelect  id="demo-customized-select-native" input={<BootstrapInput />}>
-                        <option value={""}>Area</option>
+                        <option value={""}>Additional Feauture</option>
                         <option>California</option>
                     </NativeSelect>
                 </FormControl>
                 <FormControl className={"classes.margin"}>
                     <NativeSelect  id="demo-customized-select-native" input={<BootstrapInput />}>
-                        <option value={""}>Fuel Type</option>
+                        <option value={""}>Donor Site</option>
                         <option>Little Armenia</option>
                     </NativeSelect>
                 </FormControl>
             </div>
             <div className={"grid1"}>
-                <TextField style={{marginTop:"9px"}}
-                    id="outlined-required"
-                    variant="outlined"
-                    placeholder={"Mileage"}
-                />
-                <TextField style={{marginTop:"9px"}}
-                           id="outlined-required"
-                           variant="outlined"
-                           placeholder={"Mileage"}
-                />
                 <FormControl className={"classes.margin"}>
                     <NativeSelect  id="demo-customized-select-native" input={<BootstrapInput />}>
-                        <option value={""}>Donor Site</option>
+                        <option value={""}>Property Category</option>
                         <option></option>
                     </NativeSelect>
                 </FormControl>
@@ -158,6 +179,3 @@ function CarsSearch(){
         </>
     )
 }
-
-export default CarsSearch
-

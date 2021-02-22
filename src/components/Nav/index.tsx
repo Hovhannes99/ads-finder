@@ -1,35 +1,40 @@
-import React from "react";
+import React, {useState} from "react";
 import PersonIcon from '@material-ui/icons/Person';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    NavLink
+    NavLink,
 } from "react-router-dom";
-import Map from "../Map";
 import Pricing from "../Pricing";
+import Register from "../Register";
+import About from "../About";
+import Map  from "../Map/index";
+
 
 
 function Nav () {
+
+
     return (
         <Router>
             <div className={"navLinks"}>
                 <div className={"logo"}>
                 </div>
                 <div className={"menu"}>
-                    <NavLink className={"textNav"} to={"/map"}>Map</NavLink>
-                    <NavLink className={"textNav"} to={"/about"}>About us</NavLink>
+                    <NavLink className={"textNav"} to={"/"}>About us</NavLink>
                     <NavLink className={"textNav"} to={"/pricing"}>Pricing</NavLink>
-                    <NavLink className={"textNav"} to={"/blog"}>Blog</NavLink>
-                    <NavLink className={"textNav"} to={"/contacts"}>Contacts</NavLink>
+                    <NavLink className={"textNav"} to={"/map"}>Map</NavLink>
                 </div>
                 <div className={"signIn"}>
-                    <NavLink className={"textSignIn"} to={"/sign"}><p>Signin</p><PersonIcon id={"iconUser"}/></NavLink>
+                    <NavLink className={"textSignIn"} to={"/register"}><p>Signin</p><PersonIcon id={"iconUser"}/></NavLink>
                 </div>
             </div>
             <Switch>
-                <Route path={"/map"}  component={Map}/>
-                <Route exact path={"/pricing"} component={Pricing}/>
+                <Route  exact path={"/"} component={About}/>
+                <Route  path={"/pricing"} component={Pricing}/>
+                <Route  path={"/register"} component={Register}/>
+                <Route  path={"/map"} component={Map}/>
             </Switch>
         </Router>
     )

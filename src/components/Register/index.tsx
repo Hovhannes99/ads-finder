@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "../../style/RegisterStyle/index.sass"
 import FooterGray from "../Footer/FooterGray" ;
 import SwipeableViews from 'react-swipeable-views';
@@ -13,6 +13,8 @@ import FormControl from "@material-ui/core/FormControl";
 import {Button, IconButton, Input, InputAdornment, InputLabel, OutlinedInput} from "@material-ui/core";
 import {Visibility, VisibilityOff} from "@material-ui/icons";
 import clsx from 'clsx'
+import {isBoolean, log} from "util";
+import {truncateSync} from "fs";
 
 
 interface TabPanelProps {
@@ -112,10 +114,37 @@ export default function Register() {
         showPassword: false,
         showPasswordSecond: false,
     });
-
+    const [passwordValue, setPasswordValue] = useState("");
+    const [emailValue, setEmailValue] = useState("");
+    const [logIn, setLogIn] = useState(false)
     const classes = useStyles();
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+
+
+    function changePassword(e: any) {
+        setPasswordValue(e.target.value)
+    }
+
+    function changeEmail(e: any) {
+        setEmailValue(e.target.value)
+    }
+
+    function signIn() {
+
+        if (!passwordValue || !emailValue) {
+            setLogIn(true)
+        }else {
+            setLogIn(false)
+        }
+
+    }
+
+    function singUp(){
+        if(!passwordValue || !emailValue){
+            alert("You don't fill lines")
+        }
+    }
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
@@ -132,6 +161,8 @@ export default function Register() {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
+
+
     return (
         <>
             <div className={"register"}>
@@ -152,36 +183,43 @@ export default function Register() {
                         index={value}
                         onChangeIndex={handleChangeIndex}
                     >
-                            <TabPanel value={value} index={0} dir={theme.direction}>
-                                <form autoComplete="off">
-                                    <TextField className={classes.inputEmail} id="outlined-basic" label="Email"
-                                               variant="outlined"/>
-                                </form>
-                                <FormControl className={clsx(classes.margin, classes.textField, classes.inputPassword)}
-                                             variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        type={values.showPassword ? 'text' : 'password'}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                >
-                                                    {values.showPassword ? <Visibility/> : <VisibilityOff/>}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        labelWidth={70}
-                                    />
-                                </FormControl>
-                                <Button variant="contained" color="secondary" id={"signInButton"}>
-                                 Sign in
-                                </Button>
-                            </TabPanel>
+                        <TabPanel value={value} index={0} dir={theme.direction}>
+                            <form autoComplete="off">
+                                <TextField className={classes.inputEmail}
+                                           id="outlined-basic"
+                                           label="Email"
+                                           variant="outlined"
+                                           onChange={changeEmail}
+                                           error={ logIn ? logIn? !emailValue: !!emailValue: false}/>
+                            </form>
+                            <FormControl className={clsx(classes.margin, classes.textField, classes.inputPassword)}
+                                         variant="outlined" onChange={changePassword}
+                                         >
+                                <InputLabel htmlFor="outlined-adornment-password"
+                                            error={ logIn ? logIn? !emailValue: !!emailValue : false}
+                                >Password</InputLabel>
+                                <OutlinedInput
+                                    error={ logIn ? logIn? !emailValue: !!emailValue : false}
+                                    id="outlined-adornment-password"
+                                    type={values.showPassword ? 'text' : 'password'}
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle password visibility"
+                                                onClick={handleClickShowPassword}
+                                                onMouseDown={handleMouseDownPassword}
+                                                edge="end">
+                                                {values.showPassword ? <Visibility/> : <VisibilityOff/>}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    }
+                                    labelWidth={70}
+                                />
+                            </FormControl>
+                            <Button variant="contained" color="secondary" id={"signInButton"} onClick={signIn}>
+                                Sign in
+                            </Button>
+                        </TabPanel>
                         <TabPanel value={value} index={1} dir={theme.direction}>
                             <form autoComplete="off">
                                 <TextField className={classes.inputEmail} id="outlined-basic" label="Email"
@@ -229,7 +267,7 @@ export default function Register() {
                                     labelWidth={70}
                                 />
                             </FormControl>
-                            <Button variant="contained" color="secondary" id={"signInButton"}>
+                            <Button variant="contained"  color="secondary" id={"signInButton"} onClick={singUp}>
                                 Sign up
                             </Button>
                         </TabPanel>

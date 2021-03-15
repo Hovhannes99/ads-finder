@@ -33,17 +33,17 @@ function Map() {
         setMap(null)
     }, [])
 
- return !isLoaded ? (
+ return isLoaded ? (
      <>
-        {/*  <GoogleMap*/}
-        {/*    mapContainerStyle={containerStyle}*/}
-        {/*    center={center}*/}
-        {/*    zoom={100}*/}
-        {/*    onLoad={onLoad}*/}
-        {/*    onUnmount={onUnmount}*/}
-        {/*>*/}
-        {/*</GoogleMap>*/}
-        {/* <FooterGray/>*/}
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={100}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+        >
+        </GoogleMap>
+         <FooterGray/>
      </>
 
     ) :

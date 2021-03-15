@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "../../../style/BodyStyle/index.sass";
 import "../../../style/Animation/Boxer/index.scss"
-import PaginationRounded from "../../Tools/Pagination";
 import RoomIcon from '@material-ui/icons/Room';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import FavoriteSharpIcon from '@material-ui/icons/FavoriteSharp';
@@ -13,6 +12,7 @@ import FormControl from "@material-ui/core/FormControl";
 import {withStyles,makeStyles} from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import Grid from '@material-ui/core/Grid';
+import Pagination from "@material-ui/lab/Pagination";
 
 const useStyles = makeStyles((theme) => ({
     carsGrid: {
@@ -23,7 +23,12 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom : "50px",
         backgroundColor:"#F7F7F7",
         margin:  "0 auto"
-    }
+    },
+    page: {
+        '& > *': {
+            marginTop: theme.spacing(2),
+        },
+    },
 
 }));
 const BootstrapInput = withStyles((theme) => ({
@@ -63,25 +68,66 @@ const BootstrapInput = withStyles((theme) => ({
     },
 }))(InputBase)
 
-interface User{
-    id : number,
-    title: string,
-    url: string,
-    address: {
-        city: string
-    }
+interface Phone{
+    userId : 1,
+    id: 2,
+    title: "quis ut nam facilis et officia qui",
+    "completed": false
 
 }
 
 
 function ElectronicsPage() {
-    const [data, setData] = useState<User[]>([]);
-    useEffect(()=>{
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then(response => response.json())
-            .then(json => setData(json))
-    })
     const classes = useStyles();
+    const [data, setData] = useState<Phone[]>([]);
+    const [phone, setPhone] = useState<Phone[]>([]);
+    const [phoneMatrix, setPhoneMatrix] = useState<any>([]);
+    const [countPhone, setCountPhone] = useState(0)
+    const handleChangeCount = (event: React.ChangeEvent<unknown>, value: number) => {
+        setCountPhone(value);
+    };
+
+    useEffect(()=>{
+
+        (async function () {
+            const request: any = await fetch('https://jsonplaceholder.typicode.com/todos')
+            const response = await request.json()
+            setData(response)
+
+        })();
+
+
+    },[])
+
+
+    useEffect(() => {
+        if(data.length){
+            countAvailablePhones()
+        }
+        selected()
+    }, [data, countPhone])
+
+    function countAvailablePhones() {
+        let arr: object[] | any = []
+        let n = -1;
+        for(let i=0; i < data.length;++i) {
+            if(i % 10 === 0){
+                n++;
+                arr.push([])
+            }
+            arr[n].push(data[i])
+        }
+        setPhoneMatrix(arr)
+    }
+
+    function selected(): void{
+        phoneMatrix.map((i:any,index:number)=>{
+                if(index+1 === countPhone){
+                    setPhone(i)
+                }
+            }
+        )
+    }
 
     return (
         <>
@@ -89,7 +135,7 @@ function ElectronicsPage() {
                 <div className={"headerInBody"}>
                     <div className={"loveAndResult"}><FavoriteIcon style={{fontSize:"35px",
                         color:"#707070"}
-                    }/><p style={{fontSize:"17px"}}>{1} of {data.length} results</p></div>
+                    }/><p style={{fontSize:"17px"}}>{countPhone} of {phone.length} results</p></div>
                     <div className={"results"}>Results</div>
                     <div className={"sorting"}><p style={{fontSize:"20px"}}>Sorting</p>
                         <FormControl className={"classes.margin"}>
@@ -97,14 +143,13 @@ function ElectronicsPage() {
                                 <option value={""}>from cheap to expensive</option>
                             </NativeSelect>
                         </FormControl>
-
                     </div>
                 </div>
                 <div className={classes.littleForm}>
                     <div className={classes.carsGrid}>
                         <Grid container spacing={1}>
                             <Grid container item xs={12} spacing={0}>
-                                {data.length ? data.map((i: User, index) => {
+                                {phone.length ? phone.map((i: Phone, index) => {
                                         return (<div className={"carsList"} key={index}>
                                                 <div className={"photoPhone"}>
                                                 </div>
@@ -115,8 +160,9 @@ function ElectronicsPage() {
 
                                                     <div className={"info2"}>
                                                         <div className={"part1"}>
-                                                            <div style={{fontSize:"20px",color:"#707070",marginTop:"5px" }}>{i.url}</div>
-                                                            <div style={{fontSize:"17px", color:"black",marginTop:"5px"}}><RoomIcon style={{fontSize: "medium"}}/>{i.address.city}</div>
+                                                            <div style={{fontSize:"20px",color:"#707070",marginTop:"5px" }}>{i.id}</div>
+                                                            <div style={{fontSize:"17px", color:"black",marginTop:"5px"}}><RoomIcon style={{fontSize: "medium"}}/>{i.id
+                                                            }</div>
 
                                                         </div>
                                                         <div className={"part2"}>
@@ -148,7 +194,12 @@ function ElectronicsPage() {
                 </div>
 
                 <div className={"formFooter"}>
-                    <PaginationRounded/>
+                    <div className={classes.page}>
+                        <Pagination count={phoneMatrix.length} variant="outlined"
+                                    shape="rounded"
+                                    id={"pagination"}
+                                    onChange={handleChangeCount}/>
+                    </div>
                 </div>
             </div>
             <Footer/>

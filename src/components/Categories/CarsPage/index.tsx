@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import "../../../style/BodyStyle/index.sass"
-import PaginationRounded from "../../Tools/Pagination";
 import RoomIcon from '@material-ui/icons/Room';
 import CompareArrowsIcon from '@material-ui/icons/CompareArrows';
 import FavoriteSharpIcon from '@material-ui/icons/FavoriteSharp';
@@ -12,6 +11,9 @@ import FormControl from "@material-ui/core/FormControl";
 import {withStyles,makeStyles} from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import Grid from '@material-ui/core/Grid';
+import Pagination from "@material-ui/lab/Pagination";
+
+
 
 const useStyles = makeStyles((theme) => ({
     carsGrid: {
@@ -22,7 +24,12 @@ const useStyles = makeStyles((theme) => ({
                paddingBottom : "50px",
                backgroundColor:"#F7F7F7",
                margin:  "0 auto"
-    }
+    },
+    page: {
+        '& > *': {
+            marginTop: theme.spacing(2),
+        },
+    },
 
 }));
 const BootstrapInput = withStyles((theme) => ({
@@ -31,6 +38,7 @@ const BootstrapInput = withStyles((theme) => ({
             marginTop: theme.spacing(3),
         },
     },
+
     input: {
         width: "252px",
         borderRadius: 4,
@@ -62,7 +70,7 @@ const BootstrapInput = withStyles((theme) => ({
     },
 }))(InputBase)
 
-interface User{
+interface Cars{
     id : number,
     title: string,
     url: string,
@@ -70,13 +78,57 @@ interface User{
 
 
 function CarsPage() {
-    const [data, setData] = useState<User[]>([]);
-    useEffect(()=>{
-        fetch('https://jsonplaceholder.typicode.com/posts')
-             .then(response => response.json())
-             .then(json => setData(json))
-    })
+    const [data, setData] = useState<Cars[]>([]);
+    const [matrix, setMatrix] = useState<any>([]);
+    const [cars, setCars] = useState<Cars[]>([]);
+    const [count, setCount] = useState(0);
     const classes = useStyles();
+    const handleChangeCount = (event: React.ChangeEvent<unknown>, value: number) => {
+        setCount(value);
+    };
+
+    useEffect(()=>{
+        (async function () {
+            const request: any = await fetch('https://jsonplaceholder.typicode.com/posts')
+            const response = await request.json()
+            setData(response)
+        })();
+    }, [])
+
+    useEffect(() => {
+        if(data.length){
+            countAvailableCars()
+        }
+        // selected()
+    }, [data, count])
+
+    function countAvailableCars() {
+        let arr: object[] | any = []
+        let n = -1;
+
+        for(let i=0; i < data.length;++i) {
+            if(i % 10 === 0){
+                n++;
+                arr.push([])
+            }
+            arr[n].push(data[i])
+        }
+        setMatrix(arr)
+       selected()
+    }
+    function selected(){
+        console.log(matrix)
+       matrix.map((i:any,index:number)=>{
+
+             if(index+1 === count){
+                 setCars(i)
+             }
+
+           }
+       )
+    }
+
+
 
     return (
         <>
@@ -84,7 +136,7 @@ function CarsPage() {
             <div className={"headerInBody"}>
                 <div className={"loveAndResult"}><FavoriteIcon style={{fontSize:"35px",
                                                                         color:"#707070"}
-                }/><p style={{fontSize:"17px"}}>{1} of {data.length} results</p></div>
+                }/><p style={{fontSize:"17px"}}>{count} of {cars.length} results</p></div>
                 <div className={"results"}>Results</div>
                 <div className={"sorting"}><p style={{fontSize:"20px"}}>Sorting</p>
                     <FormControl className={"classes.margin"}>
@@ -99,7 +151,7 @@ function CarsPage() {
                 <div className={classes.carsGrid}>
                     <Grid container spacing={1}>
                         <Grid container item xs={12} spacing={0}>
-                            {data.length ? data.map((i: User, index) => {
+                            {cars.length ? cars.map((i: Cars, index) => {
                                 return (<div className={"carsList"} key={index}>
                                         <div className={"photos"}>
                                         </div>
@@ -159,7 +211,14 @@ function CarsPage() {
         </div>
 
             <div className={"formFooter"}>
-                <PaginationRounded/>
+                <div className={classes.page}>
+                    <Pagination count={matrix.length} variant="outlined"
+                                shape="rounded" id={"pagination"}
+                                onChange={handleChangeCount}
+                               />
+
+
+                </div>
             </div>
         </div>
             <Footer/>
